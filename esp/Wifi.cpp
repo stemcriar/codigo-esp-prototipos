@@ -50,16 +50,63 @@ void WifiController::updateMDNS()
 
 void WifiController::startWebServer(String id) 
 {
-  this->carID = id;
+  this->ID = id;
 
-  // Usamos uma função lambda [this]() para podermos aceder ao this->carID facilmente
   server.on("/", [this]() {
-    String html = "<html><head><meta charset='UTF-8'></head>";
-    html += "<body style='display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif;'>";
-    html += "<h1>Você está vendo o carrinho " + this->carID + "</h1>";
+    String html = "<html><head><meta charset='UTF-8'>";
+    html += "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"; 
+    html += "<style>body{font-family:sans-serif; text-align:center; padding-top:50px;} input, button{padding:10px; font-size:16px; margin:5px;} button{cursor:pointer; background-color:#4CAF50; color:white; border:none; border-radius:5px;}</style>";
+    html += "</head><body>";
+    html += "<h1>Configurações: " + this->ID + "</h1>";
+    html += "<p>O IP atual do Servidor STEM Criar é: <br><strong>" + this->serverIP + "</strong></p>";
+    
+    html += "<form action='/salvar_ip' method='POST'>";
+    html += "<input type='text' name='novo_ip' placeholder='Digite o novo IP' required>";
+    html += "<button type='submit'>Salvar IP</button>";
+    html += "</form>";
     html += "</body></html>";
     
     this->server.send(200, "text/html", html);
+  });
+
+  server.on("/salvar_ip", HTTP_POST, [this]() {
+    if (this->server.hasArg("novo_ip")) {
+      String novoIP = this->server.arg("novo_ip");
+      this->saveServerIP(novoIP); 
+      
+      String html = "<html><head><meta charset='UTF-8'>";
+      html += "<meta name='viewport' content='width=device-width, initial-scale=1.0'>";
+      html += "<style>";
+      html += "body { font-family: sans-serif; text-align: center; padding: 20px; color: #333; }";
+      html += ".btn { display: inline-block; padding: 12px 24px; margin-top: 20px; background-color: #2196F3; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }";
+      html += ".alerta { margin-top: 30px; padding: 15px; background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; border-radius: 5px; font-size: 0.9em; text-align: left; }";
+      html += "</style></head><body>";
+      
+      html += "<h2 style='color: #4CAF50;'>IP do Servidor salvo com sucesso!</h2>";
+      html += "<p>O novo IP configurado é: <br><strong style='font-size: 1.2em;'>" + novoIP + "</strong></p>";
+      html += "<p>Tentando reiniciar o protótipo automaticamente...</p>";
+      
+      html += "<a href='/' class='btn'>Voltar à Página Inicial</a>";
+      
+      html += "<div class='alerta'>";
+      html += "<strong>⚠️ Atenção:</strong> Aguarde cerca de 5 segundos e clique no botão acima.<br><br>";
+      html += "Se a página inicial não carregar, significa que o reinício automático falhou. Nesse caso, <strong>por favor desligue e volte a ligar o protótipo da energia manualmente</strong> para aplicar o novo IP.";
+      html += "</div>";
+      
+      html += "</body></html>";
+      
+      this->server.send(200, "text/html", html);
+      
+      delay(1500); 
+      
+      Serial.println("Tentando reiniciar via software...");
+      
+      WiFi.disconnect(true); 
+      delay(500); 
+      ESP.restart();
+    } else {
+      this->server.send(400, "text/plain", "Erro: IP nao fornecido");
+    }
   });
 
   server.begin();
@@ -69,4 +116,24 @@ void WifiController::startWebServer(String id)
 void WifiController::handleWebServer() 
 {
   server.handleClient();
+}
+
+void WifiController::loadServerIP() 
+{
+  EEPROM.begin(512);
+  serverIP = "";
+  for (int i = 0; i < 32; ++i) {
+    char c = char(EEPROM.read(i));
+    if (c == '\0' || c == 0xFF) break; 
+    serverIP += c;
+  }
+}
+
+void WifiController::saveServerIP(String newIP) {
+  serverIP = newIP;
+  for (unsigned int i = 0; i < newIP.length(); ++i) {
+    EEPROM.write(i, newIP[i]);
+  }
+  EEPROM.write(newIP.length(), '\0');
+  EEPROM.commit();
 }

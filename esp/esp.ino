@@ -5,7 +5,6 @@
 WifiController wifi;
 Serial_comm arduino;
 
-const String ip = "192.168.3.155";
 const int port = 1801;
 
 void setup()
@@ -26,9 +25,13 @@ void setup()
   wifi.startMDNS(ID);
   wifi.startWebServer(ID);
 
+  wifi.loadServerIP();
+  Serial.print("IP do Servidor Carregado da Memoria: ");
+  Serial.println(wifi.serverIP);
+
   arduino.sendJson("ESP_IP", wifi.ip);
 
-  startWebSocketClient(ip, port);
+  startWebSocketClient(wifi.serverIP, port);
   arduino.sendJson("ws_client", "started");
   updateWebsocketClient();
   Serial.println("End of Setup");
