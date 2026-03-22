@@ -1,16 +1,18 @@
 #include "Wifi.h"
 
-WifiController::WifiController() {};
+WifiController::WifiController() : server(80) {};
 
 WifiController::~WifiController() { /* ¯\_(ツ)_/¯ */ }; // Destructor
 
-void WifiController::startWiFi()
+void WifiController::startWiFi(String ID)
 {
   Serial.println("\n\rConnecting");
   WiFiManager wifiManager;
 
+  String apName = "Config-ESP-" + ID;
+
   delay(500);
-  if (!wifiManager.autoConnect("Config-ESP-CRIAR")) {
+  if (!wifiManager.autoConnect(apName.c_str())) {
     Serial.println("Falha ao ligar. A reiniciar...");
     ESP.restart();
     delay(1000);
@@ -45,3 +47,26 @@ void WifiController::updateMDNS()
 {
   MDNS.update();
 };
+
+void WifiController::startWebServer(String id) 
+{
+  this->carID = id;
+
+  // Usamos uma função lambda [this]() para podermos aceder ao this->carID facilmente
+  server.on("/", [this]() {
+    String html = "<html><head><meta charset='UTF-8'></head>";
+    html += "<body style='display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif;'>";
+    html += "<h1>Você está vendo o carrinho " + this->carID + "</h1>";
+    html += "</body></html>";
+    
+    this->server.send(200, "text/html", html);
+  });
+
+  server.begin();
+  Serial.println("Servidor Web iniciado!");
+}
+
+void WifiController::handleWebServer() 
+{
+  server.handleClient();
+}

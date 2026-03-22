@@ -5,7 +5,7 @@
 WifiController wifi;
 Serial_comm arduino;
 
-const String ip = "192.168.15.10";
+const String ip = "192.168.3.155";
 const int port = 1801;
 
 void setup()
@@ -15,11 +15,17 @@ void setup()
   Serial.println("\nStarting Esp");
 
   arduino.doHandshake("ESP", "OK", "ARD");
-  Serial.print("The type is: ");
-  Serial.println(arduino.getReceivedType());
-  setTypeToWs(arduino.getReceivedType());
 
-  wifi.startWiFi();
+  String ID = arduino.getReceivedType();
+
+  Serial.print("The type is: ");
+  Serial.println(ID);
+  setTypeToWs(ID);
+
+  wifi.startWiFi(ID);
+  wifi.startMDNS(ID);
+  wifi.startWebServer(ID);
+
   arduino.sendJson("ESP_IP", wifi.ip);
 
   startWebSocketClient(ip, port);
@@ -30,6 +36,9 @@ void setup()
 
 void loop()
 {
+  wifi.updateMDNS();
+  wifi.handleWebServer();
+
   updateWebsocketClient();
   arduino.getJson();
   if (arduino.jsonUpdateCheck())

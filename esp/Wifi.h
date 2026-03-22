@@ -4,18 +4,25 @@
 #include <ESP8266WiFi.h> // WiFi
 #include <ESP8266mDNS.h> // multi DNS
 #include <WiFiManager.h>
+#include <ESP8266WebServer.h>
 
 class WifiController
 {
+private:
+  ESP8266WebServer server;
+  String carID;
+
 public:
   WifiController(); // Constructor
   ~WifiController();
 
   String ip = "";
 
-  void startWiFi();
+  void startWiFi(String ID);
   void startMDNS(String mdnsName);
   void updateMDNS();
+  void startWebServer(String id);
+  void handleWebServer();
 };
 
 #endif
