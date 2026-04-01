@@ -5,7 +5,8 @@
 WifiController wifi;
 Serial_comm arduino;
 
-const int port = 1801;
+// id único do protótipo, deve ser o mesmo do adesivo
+const String id = "CAR001"; 
 
 void setup()
 {
@@ -15,11 +16,10 @@ void setup()
 
   arduino.doHandshake("ESP", "OK", "ARD");
 
-  String id = arduino.getReceivedType();
-
+  String type = arduino.getReceivedType();
   Serial.print("The type is: ");
-  Serial.println(id);
-  setTypeToWs(id);
+  Serial.println(type);
+  setTypeToWs(type);
 
   wifi.startWiFi(id);
   wifi.startMDNS(id);
@@ -31,7 +31,7 @@ void setup()
 
   arduino.sendJson("ESP_IP", wifi.ip);
 
-  startWebSocketClient(wifi.serverIP, port);
+  startWebSocketClient(wifi.serverIP, 1801);
   arduino.sendJson("ws_client", "started");
   updateWebsocketClient();
   Serial.println("End of Setup");
