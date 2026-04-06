@@ -1,10 +1,10 @@
-# Configuração dos Protótipos STEM Criar
+# Manual de Configuração dos Protótipos
 
 Este manual apresenta o passo a passo detalhado para conectar os Protótipos (como o carrinho ou braço robótico) à rede Wi-Fi local e integrá-los ao Servidor STEM Criar.
 
 > **IMPORTANTE:**
 >
-> 1.  O **Servidor STEM Criar** já deve estar ativado e rodando no seu computador (se necessário, consulte o [Manual de Inicialização do Servidor](https://github.com/stemcriar/servidor-stem-criar?tab=readme-ov-file#servidor-stem-criar))
+> 1.  O **Servidor STEM Criar** já deve estar ativado e rodando no seu computador (se necessário, consulte o [Manual de Inicialização do Servidor](https://github.com/stemcriar/servidor-stem-criar?tab=readme-ov-file#manual-de-inicializa%C3%A7%C3%A3o-do-servidor))
 > 2.  O computador (onde o Servidor está rodando), o seu celular/tablet de controle e o Protótipo **DEVEM estar todos conectados na mesma rede Wi-Fi**.
 
 -----
