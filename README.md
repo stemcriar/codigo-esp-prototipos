@@ -21,12 +21,12 @@ Caso o Protótipo ainda não esteja conectado à rede do laboratório, ou a rede
 
 > OBS: Caso tenha colocado a senha errada, volte ao Passo 1 do Cenário 1.
 
-<!-- <details>
-<summary>Veja mais</summary>
-<div align="center">
-<img src="img/Passo\_WiFi.gif" alt="Passo a passo da configuração Wi-Fi" width="800">
-</div>
-</details> -->
+<details>
+<summary>Veja o vídeo</summary>
+  
+[![Cenário 1. Conectando o Protótipo ao Wi-Fi - Manual de Configuração dos Protótipos STEM Criar](https://img.youtube.com/vi/iiv0fuLaJCw/0.jpg)](https://www.youtube.com/watch?v=iiv0fuLaJCw)
+
+</details>
 
 -----
 
@@ -42,12 +42,13 @@ Agora que o Protótipo já está na mesma rede Wi-Fi que você, precisamos infor
 6.  **Desligue e ligue** o Protótipo no botão para aplicar as mudanças.
 7.  Pronto! Verifique a tela principal do seu **Servidor STEM Criar**. O Protótipo deverá aparecer disponível para controle. Caso não apareça, veja [Possíveis Erros³](#3-o-protótipo-não-aparece-no-servidor-mesmo-após-configurar-tudo).
 
-<!-- <details>
-<summary>Veja mais</summary>
-<div align="center">
-<img src="img/Passo\_Servidor.gif" alt="Acessando a página local e salvando IP" width="800">
-</div>
-</details> -->
+<details>
+<summary>Veja o vídeo</summary>
+  
+[![Cenário 2. Apontando o Protótipo para o Servidor - Manual de Configuração dos Protótipos STEM Criar](https://img.youtube.com/vi/lUxDabK9lX8/0.jpg)](https://www.youtube.com/watch?v=lUxDabK9lX8)
+
+</details>
+
 
 -----
 
@@ -62,13 +63,6 @@ Esta alternativa é utilizada para trocar a rede Wi-Fi do Protótipo de forma ma
 3.  Clique no botão **Esquecer rede atual**.
 4.  O Protótipo esquecerá a rede antiga e voltará para o estado inicial (desconectado).
 5.  Siga o passo a passo da seção [Cenário 1. Primeira Conexão](#cenário-1-primeira-conexão-conectando-o-protótipo-ao-wi-fi) para encontrar a rede `Config-ESP` e escolher a nova rede Wi-Fi.
-
-<!-- <details>
-<summary>Veja mais</summary>
-<div align="center">
-<img src="img/Passo\_TrocarWiFi.gif" alt="Esquecendo a rede atual" width="800">
-</div>
-</details> -->
 
 -----
 
