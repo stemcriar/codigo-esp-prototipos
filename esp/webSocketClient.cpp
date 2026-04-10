@@ -2,6 +2,7 @@
 
 WebSocketsClient webSocketClient;
 String typeToWs = "";
+String espNameToWs = "";
 
 void updateWebsocketClient()
 {
@@ -36,6 +37,16 @@ String getTypeToWs()
   return typeToWs;
 }
 
+void setEspNameToWs(String name)
+{
+  espNameToWs = name;
+}
+
+String getEspNameToWs()
+{
+  return espNameToWs;
+}
+
 void webSocketClientEvent(WStype_t type, uint8_t *payload, size_t length)
 {
 
@@ -49,9 +60,10 @@ void webSocketClientEvent(WStype_t type, uint8_t *payload, size_t length)
   {
     Serial.printf("\rConnected to server on url: %s\n\r", payload);
     String message = "";
-    StaticJsonDocument<64> doc;
+    StaticJsonDocument<96> doc;
     doc["start"] = "ESP_on";
     doc["espType"] = getTypeToWs();
+    doc["espName"] = getEspNameToWs();
     serializeJson(doc, message);
     // send message to server when Connected
     webSocketClient.sendTXT(message);

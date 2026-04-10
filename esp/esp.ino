@@ -6,7 +6,7 @@ WifiController wifi;
 Serial_comm arduino;
 
 // id único do protótipo, deve ser o mesmo do adesivo
-const String id = "CAR001"; 
+const String id = "HUM001"; 
 
 void setup()
 {
@@ -20,6 +20,7 @@ void setup()
   Serial.print("The type is: ");
   Serial.println(type);
   setTypeToWs(type);
+  setEspNameToWs(id);
 
   wifi.startWiFi(id);
   wifi.startMDNS(id);

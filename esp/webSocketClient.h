@@ -14,4 +14,7 @@ void updateWebsocketClient();
 void setTypeToWs(String type);
 String getTypeToWs();
 
+void setEspNameToWs(String name);
+String getEspNameToWs();
+
 #endif
