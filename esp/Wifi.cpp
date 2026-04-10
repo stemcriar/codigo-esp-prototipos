@@ -63,7 +63,7 @@ void WifiController::startWebServer(String id)
     html += "<p>O IP atual do <strong>Servidor STEM Criar</strong> é: <br><strong><a href='http://" + this->serverIP + "'>" + this->serverIP + "</a></strong></p>";
     
     html += "<form action='/salvar_ip' method='POST'>";
-    html += "<input type='text' name='novo_ip' placeholder='Ex: 192.168.0.62. Apenas números' required>";
+    html += "<input type='text' name='novo_ip' placeholder='Ex: 192.168.0.62' required>";
     html += "<button type='submit'>Salvar IP</button>";
     html += "</form>";
 
