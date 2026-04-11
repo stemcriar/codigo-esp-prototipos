@@ -8,7 +8,7 @@ class Serial_comm
 {
 private:
   long previousMillis = 0;
-  long interval = 1000; // (em milissegundos) -> define o tempo de "delay"
+  long interval = 100; // (em milissegundos) -> define o tempo de "delay"
   String type = "0";
   String response = "0";
   String receivedType = "";
