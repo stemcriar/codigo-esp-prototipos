@@ -2,46 +2,41 @@
 #include "webSocketClient.h"
 #include "serial_comm.h"
 
-WifiController wifi;
 Serial_comm arduino;
 
 // id único do protótipo, deve ser o mesmo do adesivo
-const String id = "HUM001"; 
+const String id = "STEM013";
 
-void setup()
+void setup() 
 {
   Serial.begin(9600);
   delay(1000);
   Serial.println("\nStarting Esp");
 
   arduino.doHandshake("ESP", "OK", "ARD");
-
+  
   String type = arduino.getReceivedType();
   Serial.print("The type is: ");
   Serial.println(type);
   setTypeToWs(type);
-  setEspNameToWs(id);
+  setEspNameToWs(id); 
 
-  wifi.startWiFi(id);
-  wifi.startMDNS(id);
-  wifi.startWebServer(id);
+  wifi.setup(id);
 
-  wifi.loadServerIP();
-  Serial.print("IP do Servidor Carregado da Memoria: ");
-  Serial.println(wifi.serverIP);
+  String ipDaESP = wifi.getIP();
+  String ipDoServidor = wifi.getServerIP();
+  
+  arduino.sendJson("ESP_IP", ipDaESP.c_str());
 
-  arduino.sendJson("ESP_IP", wifi.ip);
-
-  startWebSocketClient(wifi.serverIP, 1801);
+  startWebSocketClient(ipDoServidor, 1801);
   arduino.sendJson("ws_client", "started");
   updateWebsocketClient();
   Serial.println("End of Setup");
 };
 
-void loop()
+void loop() 
 {
-  wifi.updateMDNS();
-  wifi.handleWebServer();
+  wifi.loop();
 
   updateWebsocketClient();
   arduino.getJson();
